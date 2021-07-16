@@ -26,7 +26,7 @@ class StudentsController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -37,7 +37,21 @@ class StudentsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validationRules = ['name'=> 'required|min:3', 'email' => 'required','shortdescription' => 'required|max:500'];
+        $customMessages = ['name.required' => 'The :attribute field is diperlukan and more than 3 character', 'email.required' => 'Email is required', 'shortdescription' => 'Required and cannot be more than 500 chars'];
+        $request -> validate($validationRules, $customMessages);
+
+
+        $student = new Student;
+        $student->name = $request->name;
+        $student-> email = $request->email;
+        if($request->shortdescription != "") {
+            $student->short_description = $request->shortdescription;
+        }
+     
+        $student->save();
+
+        return redirect('/students')->with('pesan', "Berhasil, Berhasil ! Hore !");
     }
 
     /**
@@ -69,9 +83,16 @@ class StudentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $id = $request -> id;
+        $validationRules = ['name'=> 'required|min:3', 'email' => 'required','shortdescription' => 'required|max:500'];
+        $customMessages = ['name.required' => 'The :attribute field is diperlukan and more than 3 character', 'email.required' => 'Email is required', 'shortdescription' => 'Required and cannot be more than 500 chars'];
+        $request -> validate($validationRules, $customMessages);
+
+        $studentUp = $request;
+        Student::where('id', $id) -> update(['name' => $studentUp->name, 'email' => $studentUp -> email, 'short_description' => $studentUp->shortdescription]);
+        return redirect("/students") -> with('pesan', "Data successfully updated");
     }
 
     /**
@@ -82,6 +103,7 @@ class StudentsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Student::destroy($student -> id );
+        return redirect('/students')->with('pesan', 'Data berhasil dihapus!');
     }
 }

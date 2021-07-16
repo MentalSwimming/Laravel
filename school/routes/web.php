@@ -16,8 +16,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+//Students Routes
 Route::get('/students', 'StudentsController@index')-> middleware('auth');
+Route::post('/students', 'StudentsController@store') -> middleware('auth');
+Route::post('/students/edit', 'StudentsController@update') -> middleware('auth');
 
+//End Of Students Routes
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

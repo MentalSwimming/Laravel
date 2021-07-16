@@ -215,11 +215,10 @@
 
                 var data = table.row($tr).data();
                 console.log(data);
-
-                $("#editstudentid").val(data[0]);
+                $("#editid").val(data[0]);
                 $("#editname").val(data[1]);
-                $("#editaddress").val(data[2]);
-                $("#editemail").val(data[3]);
+                $("#editemail").val(data[2]);
+                $("#editdesc").val(data[3]);
                 $("#editStudentModal").modal('show');
 
             });
